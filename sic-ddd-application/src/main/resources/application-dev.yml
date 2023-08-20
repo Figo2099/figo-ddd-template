@@ -1,0 +1,35 @@
+# 指定log4j2目录
+logging:
+  config: classpath:log4j2-dev.xml
+
+spring:
+  # redis配置
+  redis:
+    database: 0
+    host:
+    port:
+    password:
+    timeout: 6000
+    lettuce: # redis客户端
+      pool:
+        max-active: 8 # 最大可用连接数（默认为8，负数表示无限）
+        max-idle: 8  # 最大空闲连接数（默认为8，负数表示无限）
+        min-idle: 0  # 最小空闲连接数（默认为0，该值只有为正数才有用）
+        max-wait: -1 # 从连接池中获取连接最大等待时间（默认为-1，单位为毫秒，负数表示无限）
+  sleuth:
+    jdbc:
+      enabled: true # jdbc链路追踪
+  # mysql配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url:
+    username:
+    password:
+
+# mybatis-plus相关配置
+mybatis-plus:
+  type-aliases-package: com.shp.tsfservice.sic.ddd.infra.repo.mysql.po
+  configuration:
+    cache-enabled: false
+    map-underscore-to-camel-case: true
+

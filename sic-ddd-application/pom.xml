@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>sic-ddd</artifactId>
+        <groupId>com.shp.tsfservice</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>sic-ddd-application</artifactId>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <!-- TSF 启动器 -->
+        <dependency>
+            <groupId>com.tencent.tsf</groupId>
+            <artifactId>spring-cloud-tsf-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.shp.tsfservice</groupId>
+            <artifactId>sic-ddd-common</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>rocketmq-srvutil</artifactId>
+                    <groupId>org.apache.rocketmq</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>logback-classic</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.shp.tsfservice</groupId>
+            <artifactId>sic-ddd-domain</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.shp.tsfservice</groupId>
+            <artifactId>sic-ddd-interfaces</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.shp.tsfservice</groupId>
+            <artifactId>sic-ddd-infra</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.shp.tsfservice.sic.ddd.application.SicDDDApplication</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>shpit-shpinfocenter-releases</id>
+            <name>releases</name>
+            <url>https://shpit-maven.pkg.coding.net/repository/shpinfocenter/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>shpit-shpinfocenter-snapshots</id>
+            <name>snapshots</name>
+            <url>https://shpit-maven.pkg.coding.net/repository/shpinfocenter/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>

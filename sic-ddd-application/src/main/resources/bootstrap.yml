@@ -1,0 +1,10 @@
+server:
+  port: 9999
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: sic-ddd-template
+feign:
+  tsf:
+    enabled: true

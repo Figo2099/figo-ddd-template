@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" monitorInterval="2">
+
+    <Properties>
+        <Property name="log_path">${user.home}/logs/tsf-service/sic-ddd-template</Property>
+        <Property name="LogPattern">%d{yyyy-MM-dd HH:mm:ss,SSS} %5p [sic-ddd-template,%X{trace_id},%X{span_id},] (%c{1}#%M:%L) %t - %m%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LogPattern}"/>
+        </Console>
+        <RollingFile name="debug" fileName="${log_path}/debug.log"
+                     filePattern="${log_path}/debug-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LogPattern}"/>
+            <Filters>
+                <ThresholdFilter level="DEBUG"/>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="1GB"/>
+            </Policies>
+        </RollingFile>
+        <RollingFile name="info" fileName="${log_path}/info.log"
+                     filePattern="${log_path}/info-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LogPattern}"/>
+            <Filters>
+                <ThresholdFilter level="INFO"/>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="1GB"/>
+            </Policies>
+        </RollingFile>
+        <RollingFile name="request-response" fileName="${log_path}/rr.log"
+                     filePattern="${log_path}/rr-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LogPattern}"/>
+            <Filters>
+                <ThresholdFilter level="INFO"/>
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+            </Filters>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="1GB"/>
+            </Policies>
+        </RollingFile>
+        <RollingFile name="error" fileName="${log_path}/error.log"
+                     filePattern="${log_path}/error-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LogPattern}"/>
+            <ThresholdFilter level="ERROR"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="1GB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+
+        <Root level="DEBUG">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="debug"/>
+            <AppenderRef ref="info"/>
+            <AppenderRef ref="error"/>
+        </Root>
+
+        <AsyncLogger name="com.shp.tsfservice.sic.ddd.application.aspect" level="info" additivity="false">
+            <AppenderRef ref="request-response"/>
+        </AsyncLogger>
+
+    </Loggers>
+
+</Configuration>
